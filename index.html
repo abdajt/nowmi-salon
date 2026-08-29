@@ -53,7 +53,7 @@ let SERVICES=[], STAFF=[];
 const EXPENSES=["Rent","Salary","Electricity","Water","Internet","Product purchase","Maintenance","Cleaning","Marketing","Equipment","Tea and snacks","Delivery boy","Other"];
 const KEY="nowmi_salon_v1";
 const initial={sales:[],expenses:[],customers:[],appointments:[],users:[
- {u:"owner1",p:"owner123",role:"Owner"},{u:"owner2",p:"owner123",role:"Owner"},{u:"owner3",p:"owner123",role:"Owner"},{u:"owner4",p:"owner123",role:"Owner"},{u:"manager",p:"manager123",role:"Manager"}]};
+ {u:"admin",p:"dec26@2024",role:"Admin"}]};
 let db=initial, session=null, page="dashboard", cart=[];
 
 // Firestore does NOT support arrays-of-arrays (e.g. [["Haircut",120,30]]).
