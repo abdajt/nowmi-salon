@@ -13,7 +13,21 @@ button,input,select{font:inherit}button{cursor:pointer;border:0}.app{display:fle
 </head>
 <body>
 <div id="root"></div>
+<script cdn.jsdelivr.net/npm/@supabase/supabase-js@2script>
+ 
 <script>
+const SUPABASE_URL =
+"https://fwjeurhpbkjgjmvwmisa.supabase.co/rest/v1/";
+
+const SUPABASE_KEY =
+"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ3amV1cmhwYmtqZ2ptdndtaXNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc5NDM2MDYsImV4cCI6MjEwMzUxOTYwNn0.jRp91lzFUp5x5VGOL7aDR3CPvpqUJccHiVEJ5EQLpNU";
+
+const supabase =
+window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
+
 const DEFAULT_SERVICES=[
 ["Haircut",120,30],["Shaving",60,15],["Trimming",70,15],["Haircut + Shave",180,45],["Haircut + Trimming",190,45],["Hair Wash",50,15],
 ["Combo 1 — Hair cut / Shave / Oil massage",299,60],["Combo 2 — Hair cut / Shave / Detan",299,60],["Combo 3 — Hair cut / Shave / Hairdye",349,75],
