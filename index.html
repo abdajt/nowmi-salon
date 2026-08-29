@@ -141,7 +141,6 @@ function settings(c){c.innerHTML=`<h1>Settings</h1><div class="grid g2"><div cla
 function exportData(){let a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify(db,null,2)],{type:"application/json"}));a.download="nowmi-salon-backup.json";a.click()}
 function importData(inp){let f=inp.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{db=JSON.parse(r.result);save();toast("Backup imported");render()}catch(e){toast("Invalid backup file")}};r.readAsText(f)}
 async function testConnection() {
-
   const { data, error } = await supabase
     .from('test')
     .insert([
@@ -149,17 +148,14 @@ async function testConnection() {
         name: 'Nowmi Test'
       }
     ]);
-
   console.log(data);
   console.log(error);
-
   if(error){
     alert('Supabase Connection Failed');
   }else{
     alert('Supabase Connected Successfully');
   }
 }
-
 testConnection();
 login();
 </script>
