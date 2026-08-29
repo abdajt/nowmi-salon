@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0ea5e9">
+<title>Nowmi Salon — Management</title>
+<style>
+:root{--primary:#0ea5e9;--primary2:#2563eb;--bg:#f5f7fb;--card:#fff;--text:#172033;--muted:#667085;--border:#e5e7eb;--danger:#dc2626;--success:#16a34a}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial;background:var(--bg);color:var(--text)}
+button,input,select{font:inherit}button{cursor:pointer;border:0}.app{display:flex;min-height:100vh}.sidebar{width:240px;background:#fff;border-right:1px solid var(--border);padding:18px;position:fixed;inset:0 auto 0 0;z-index:10}.brand{font-weight:800;font-size:20px;padding:8px 6px 20px}.brand small{display:block;color:var(--muted);font-size:11px;font-weight:500;margin-top:3px}.nav button{display:block;width:100%;text-align:left;padding:11px 12px;margin:4px 0;border-radius:10px;background:transparent;color:#344054}.nav button.active,.nav button:hover{background:#e0f2fe;color:#0369a1}.main{margin-left:240px;width:calc(100% - 240px)}.top{height:64px;background:#fff;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 24px;position:sticky;top:0;z-index:5}.content{padding:24px;max-width:1400px;margin:auto}.grid{display:grid;gap:16px}.g4{grid-template-columns:repeat(4,1fr)}.g3{grid-template-columns:repeat(3,1fr)}.g2{grid-template-columns:repeat(2,1fr)}.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;box-shadow:0 1px 2px #00000008}.metric{font-size:28px;font-weight:800;margin-top:6px}.label{font-size:13px;color:var(--muted)}h1{font-size:26px;margin:0 0 18px}h2{font-size:18px;margin:0 0 14px}.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.between{justify-content:space-between}.btn{padding:10px 14px;border-radius:9px;background:#eef2f6;color:#344054}.btn.primary{background:var(--primary2);color:#fff}.btn.success{background:var(--success);color:#fff}.btn.danger{background:var(--danger);color:#fff}.input,.select{width:100%;padding:10px 11px;border:1px solid #d0d5dd;border-radius:9px;background:#fff}.field{margin-bottom:12px}.field label{display:block;font-size:13px;color:#475467;margin-bottom:6px}.tablewrap{overflow:auto}.table{width:100%;border-collapse:collapse}.table th,.table td{padding:10px 8px;border-bottom:1px solid var(--border);text-align:left;white-space:nowrap;font-size:13px}.table th{color:#667085;font-weight:600}.pill{padding:4px 8px;border-radius:999px;font-size:12px;background:#e0f2fe;color:#0369a1}.hidden{display:none!important}.bill-layout{display:grid;grid-template-columns:1.4fr .8fr;gap:16px}.service-list{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.service-btn{padding:12px;text-align:left;border:1px solid var(--border);background:#fff;border-radius:10px}.service-btn:hover{border-color:var(--primary);background:#f0f9ff}.service-btn b{display:block}.service-btn span{font-size:12px;color:var(--muted)}.cart-row{display:grid;grid-template-columns:1fr 75px 85px 28px;gap:7px;align-items:center;margin-bottom:8px}.total{font-size:22px;font-weight:800}.login{min-height:100vh;display:grid;place-items:center;background:linear-gradient(135deg,#e0f2fe,#eff6ff)}.login-card{width:min(420px,92vw);background:#fff;padding:28px;border-radius:18px;border:1px solid var(--border);box-shadow:0 12px 40px #0001}.logo-placeholder{width:64px;height:64px;border-radius:16px;background:#e0f2fe;display:grid;place-items:center;font-weight:900;color:#0369a1;margin-bottom:16px}.toast{position:fixed;right:20px;bottom:20px;background:#172033;color:#fff;padding:12px 16px;border-radius:10px;z-index:99}.muted{color:var(--muted)}.danger-text{color:var(--danger)}.success-text{color:var(--success)}@media(max-width:1000px){.g4{grid-template-columns:repeat(2,1fr)}.bill-layout{grid-template-columns:1fr}.service-list{grid-template-columns:repeat(2,1fr)}}@media(max-width:700px){.sidebar{width:72px;padding:12px 8px}.brand{font-size:0;text-align:center}.brand:before{content:"N";font-size:22px}.brand small,.brand img,.nav span{display:none}.nav button{text-align:center;font-size:0}.nav button:before{font-size:19px}.nav button[data-page="dashboard"]:before{content:"🏠"}.nav button[data-page="billing"]:before{content:"🧾"}.nav button[data-page="sales"]:before{content:"💰"}.nav button[data-page="customers"]:before{content:"👤"}.nav button[data-page="appointments"]:before{content:"📅"}.nav button[data-page="services"]:before{content:"💇"}.nav button[data-page="staff"]:before{content:"👥"}.nav button[data-page="expenses"]:before{content:"💸"}.nav button[data-page="reports"]:before{content:"📊"}.nav button[data-page="settings"]:before{content:"⚙️"}.main{margin-left:72px;width:calc(100% - 72px)}.content{padding:14px}.g4,.g3,.g2{grid-template-columns:1fr}.top{padding:0 14px}.service-list{grid-template-columns:1fr}.cart-row{grid-template-columns:1fr 65px 75px 25px}h1{font-size:22px}}
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<!-- Firebase compat SDK (no bundler/build step required) -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
+<script>
+/* =========================================================
+   FIREBASE SETUP — paste your project's config here.
+   Get this from: Firebase Console → Project settings → General
+   → "Your apps" → Web app → SDK setup and configuration.
+   ========================================================= */
+const firebaseConfig = {
+  apiKey: "AIzaSyDqhy0eek24l6NhTSDcAFE4porx4NfxPRI",
+  authDomain: "nowmi-salon.firebaseapp.com",
+  projectId: "nowmi-salon",
+  storageBucket: "nowmi-salon.firebasestorage.app",
+  messagingSenderId: "644268415618",
+  appId: "1:644268415618:web:e51861b9c7f0245d6e329b"
+};
+firebase.initializeApp(firebaseConfig);
+const fsdb = firebase.firestore();
+// Cache data locally so the app still works offline / on flaky connections.
+fsdb.enablePersistence({synchronizeTabs:true}).catch(e=>console.warn("Offline persistence unavailable:",e.code));
+// All salon data lives in a single document — simple and fine for this data size.
+const cloudDoc = fsdb.collection("nowmi_salon").doc("main");
+</script>
+
+<script>
+const DEFAULT_SERVICES=[
+["Haircut",120,30],["Shaving",60,15],["Trimming",70,15],["Haircut + Shave",180,45],["Haircut + Trimming",190,45],["Hair Wash",50,15],
+["Combo 1 — Hair cut / Shave / Oil massage",299,60],["Combo 2 — Hair cut / Shave / Detan",299,60],["Combo 3 — Hair cut / Shave / Hairdye",349,75],
+["Combo 4 — Hair cut / Shave / L'Oreal premium hair colour",599,90],["Combo 5 — Hair cut / Shave / Detan / Oil massage",499,90],["Combo 6 — Hair cut / Shave / clean up",499,75],
+["Combo 7 — Hair cut / Shave / Loreal Premium Hair spa",599,90],["Combo 8 — Hair cut / Shave / Fruit Facial",549,90],
+["Combo 9 — Hair cut / Shave / Detan/Loreal Premium Hair Colour",799,105],["Combo 10 — Hair cut / Shave /Gold Facial",899,105],["Zero Haircut",150,30]
+];
+const DEFAULT_STAFF=[["Salman","Stylist",20000,10],["Karthik","Stylist",20000,10],["Gaurav","Stylist",20000,10]];
+let SERVICES=[], STAFF=[];
+const EXPENSES=["Rent","Salary","Electricity","Water","Internet","Product purchase","Maintenance","Cleaning","Marketing","Equipment","Tea and snacks","Delivery boy","Other"];
+const KEY="nowmi_salon_v1";
+const initial={sales:[],expenses:[],customers:[],appointments:[],users:[
+ {u:"owner1",p:"owner123",role:"Owner"},{u:"owner2",p:"owner123",role:"Owner"},{u:"owner3",p:"owner123",role:"Owner"},{u:"owner4",p:"owner123",role:"Owner"},{u:"manager",p:"manager123",role:"Manager"}]};
+let db=initial, session=null, page="dashboard", cart=[];
+
+function applyDefaults(){
+  if(!db.services) db.services=DEFAULT_SERVICES;
+  if(!db.staff) db.staff=DEFAULT_STAFF;
+  if(!db.users) db.users=initial.users;
+  if(!db.sales) db.sales=[];
+  if(!db.expenses) db.expenses=[];
+  if(!db.customers) db.customers=[];
+  if(!db.appointments) db.appointments=[];
+  SERVICES=db.services; STAFF=db.staff;
+}
+
+function showConnecting(msg){document.getElementById("root").innerHTML=`<div class="login"><div class="login-card" style="text-align:center"><h1>Nowmi Salon</h1><p class="muted">${esc(msg)}</p></div></div>`}
+
+// Save = write local cache immediately (fast, works offline) + push to the cloud so other devices see it.
+function save(){
+  localStorage.setItem(KEY,JSON.stringify(db));
+  cloudDoc.set(db).catch(err=>{console.error("Cloud sync failed:",err);toast("⚠ Cloud sync failed — saved locally only")});
+}
+
+// Real-time listener: when data changes from ANY device, pull it in and re-render.
+// hasPendingWrites=true means this snapshot is our own optimistic local write echoing back — ignore it to avoid render loops.
+function listenForRemoteChanges(){
+  cloudDoc.onSnapshot(snap=>{
+    if(snap.metadata.hasPendingWrites) return;
+    if(!snap.exists) return;
+    db=snap.data();
+    applyDefaults();
+    localStorage.setItem(KEY,JSON.stringify(db));
+    if(session){ toast("🔄 Synced from another device"); render(); }
+  }, err=>console.error("Sync listener error:",err));
+}
+
+function startApp(){
+  showConnecting("Connecting to cloud sync…");
+  cloudDoc.get().then(snap=>{
+    if(snap.exists){
+      db=snap.data();
+    } else {
+      db=JSON.parse(JSON.stringify(initial));
+      cloudDoc.set(db);
+    }
+    applyDefaults();
+    listenForRemoteChanges();
+    login();
+  }).catch(err=>{
+    console.error("Initial cloud load failed:",err);
+    db=JSON.parse(localStorage.getItem(KEY)||"null")||JSON.parse(JSON.stringify(initial));
+    applyDefaults();
+    login();
+    toast("⚠ Offline — using local data. Check your Firebase config / connection.");
+  });
+}
+function money(n){return "₹"+Number(n||0).toLocaleString("en-IN",{maximumFractionDigits:2})}
+function esc(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]))}
+function today(){return new Date().toISOString().slice(0,10)}
+function sum(a,f){return a.reduce((x,y)=>x+(f?f(y):y),0)}
+function toast(t){let e=document.createElement("div");e.className="toast";e.textContent=t;document.body.appendChild(e);setTimeout(()=>e.remove(),2200)}
+function login(){document.getElementById("root").innerHTML=`<div class="login"><div class="login-card"><img src="nowmi-logo.jpg" alt="Nowmi Salon logo" style="width:100%;max-height:180px;object-fit:contain;border-radius:12px;margin-bottom:16px"><h1>Nowmi Salon</h1><p class="muted">Arapalayam • Management System</p><div class="field"><label>Username</label><input id="lu" class="input" value=""></div><div class="field"><label>Password</label><input id="lp" type="password" class="input"></div><button class="btn primary" style="width:100%" onclick="doLogin()">Sign in</button><p class="muted" style="font-size:12px;margin-top:16px">Initial demo accounts: owner1–owner4 / owner123; manager / manager123. Change these before real use.</p></div></div>`}
+function doLogin(){let u=document.getElementById("lu").value,p=document.getElementById("lp").value;session=db.users.find(x=>x.u===u&&x.p===p);if(!session)return toast("Invalid username or password");render()}
+function render(){document.getElementById("root").innerHTML=`<div class="app"><aside class="sidebar"><div class="brand"><img src="nowmi-logo.jpg" alt="Nowmi Salon" style="width:100%;max-height:54px;object-fit:contain;background:#111;border-radius:8px;margin-bottom:7px"><small>Arapalayam</small></div><nav class="nav">${[
+["dashboard","Dashboard"],["billing","New Bill"],["sales","Sales"],["customers","Customers"],["appointments","Appointments"],["services","Services"],["staff","Staff"],["expenses","Expenses"],["reports","Reports"],["settings","Settings"]].map(x=>`<button data-page="${x[0]}" class="${page===x[0]?"active":""}" onclick="go('${x[0]}')"><span>${x[1]}</span></button>`).join("")}</nav></aside><main class="main"><header class="top"><b>${page==="billing"?"New Bill":page[0].toUpperCase()+page.slice(1)}</b><div class="row"><span class="pill">${esc(session.role)}</span><button class="btn" onclick="logout()">Logout</button></div></header><section class="content" id="content"></section></main></div>`;view()}
+function go(p){page=p;render()} function logout(){session=null;cart=[];login()}
+function view(){let c=document.getElementById("content");({dashboard:dashboard,billing:billing,sales:sales,customers:customers,appointments:appointments,services:services,staff:staff,expenses:expenses,reports:reports,settings:settings}[page])(c)}
+function dashboard(c){let t=today(), ds=db.sales.filter(x=>x.date===t), es=db.expenses.filter(x=>x.date===t), m=new Date().toISOString().slice(0,7),ms=db.sales.filter(x=>x.date.startsWith(m)),me=db.expenses.filter(x=>x.date.startsWith(m));c.innerHTML=`<h1>Good day 👋</h1><div class="grid g4">
+<div class="card"><div class="label">Today's sales</div><div class="metric">${money(sum(ds,x=>x.total))}</div><div class="muted">${ds.length} bills</div></div>
+<div class="card"><div class="label">Today's expenses</div><div class="metric">${money(sum(es,x=>x.amount))}</div></div>
+<div class="card"><div class="label">Today's net</div><div class="metric">${money(sum(ds,x=>x.total)-sum(es,x=>x.amount))}</div></div>
+<div class="card"><div class="label">Customers today</div><div class="metric">${new Set(ds.map(x=>x.mobile).filter(Boolean)).size}</div></div></div>
+<div style="height:16px"></div><div class="grid g2"><div class="card"><h2>This month</h2><p>Sales <b>${money(sum(ms,x=>x.total))}</b></p><p>Expenses <b>${money(sum(me,x=>x.amount))}</b></p><p>Net <b>${money(sum(ms,x=>x.total)-sum(me,x=>x.amount))}</b></p></div><div class="card"><h2>Payment breakdown — today</h2>${["Cash","UPI","Card","Credit"].map(p=>`<p class="row between"><span>${p}</span><b>${money(sum(ds,x=>(x.payments||[]).filter(q=>q.method===p).reduce((a,q)=>a+Number(q.amount),0)))}</b></p>`).join("")}</div></div>
+<div style="height:16px"></div><div class="card"><div class="row between"><h2>Recent bills</h2><button class="btn primary" onclick="go('billing')">Create bill</button></div><div class="tablewrap"><table class="table"><thead><tr><th>Invoice</th><th>Date</th><th>Customer</th><th>Staff</th><th>Total</th></tr></thead><tbody>${db.sales.slice(-8).reverse().map(x=>`<tr><td>${esc(x.invoice)}</td><td>${x.date}</td><td>${esc(x.customer||"Walk-in")}</td><td>${esc(x.staff)}</td><td>${money(x.total)}</td></tr>`).join("")||"<tr><td colspan=5>No sales yet</td></tr>"}</tbody></table></div></div>`}
+function billing(c){c.innerHTML=`<h1>Create Bill</h1><div class="bill-layout"><div class="card"><div class="grid g2"><div class="field"><label>Customer mobile</label><input id="bm" class="input" placeholder="10-digit mobile" oninput="findCustomer()"></div><div class="field"><label>Customer name</label><input id="bn" class="input" placeholder="Walk-in customer"></div></div><div class="field"><label>Staff</label><select id="bs" class="select">${STAFF.map(x=>`<option>${x[0]}</option>`).join("")}</select></div><h2>Services</h2><div class="service-list">${SERVICES.map((x,i)=>`<button class="service-btn" onclick="addService(${i})"><b>${esc(x[0])}</b><span>${money(x[1])} • ${x[2]} min</span></button>`).join("")}</div></div>
+<div class="card"><h2>Bill summary</h2><div id="cart"></div><div class="grid g2"><div class="field"><label>Discount ₹</label><input id="bd" class="input" type="number" min="0" value="0" oninput="refreshCart()"></div><div class="field"><label>Credit / unpaid ₹</label><input id="bc" class="input" type="number" min="0" value="0" oninput="refreshCart()"></div></div><div id="paybox"></div><hr><div class="row between"><span>Total</span><span id="btotal" class="total">₹0</span></div><button class="btn success" style="width:100%;margin-top:14px" onclick="saveBill()">Save & Print Bill</button><button class="btn" style="width:100%;margin-top:8px" onclick="cart=[];refreshCart()">Clear</button></div></div>`;refreshCart()}
+function addService(i){let x=SERVICES[i], found=cart.find(a=>a.name===x[0]);found?found.qty++:cart.push({name:x[0],price:x[1],qty:1});refreshCart()}
+function refreshCart(){let e=document.getElementById("cart");if(!e)return;let subtotal=sum(cart,x=>x.price*x.qty),discount=Number(document.getElementById("bd")?.value||0),credit=Math.min(Number(document.getElementById("bc")?.value||0),Math.max(0,subtotal-discount)),total=Math.max(0,subtotal-discount);e.innerHTML=cart.map((x,i)=>`<div class="cart-row"><span>${esc(x.name)}</span><input class="input" type="number" min="1" value="${x.qty}" onchange="cart[${i}].qty=Math.max(1,+this.value);refreshCart()"><span>${money(x.price*x.qty)}</span><button class="btn" onclick="cart.splice(${i},1);refreshCart()">×</button></div>`).join("")||"<p class='muted'>Add services from the left.</p>";document.getElementById("btotal").textContent=money(total);let paid=Math.max(0,total-credit);document.getElementById("paybox").innerHTML=`<h2>Payment</h2><div class="grid g3">${["Cash","UPI","Card"].map(p=>`<div class="field"><label>${p} ₹</label><input id="pay_${p}" class="input pay" type="number" min="0" value="${p==="UPI"?paid:0}" oninput="balancePay()"></div>`).join("")}</div><div id="paymsg" class="muted">Paid: ${money(paid)} • Due: ${money(credit)}</div>`;balancePay()}
+function balancePay(){let total=Number((document.getElementById("btotal")?.textContent||"").replace(/[₹,]/g,""))||0, credit=Number(document.getElementById("bc")?.value||0), paid=["Cash","UPI","Card"].reduce((a,p)=>a+Number(document.getElementById("pay_"+p)?.value||0),0);let msg=document.getElementById("paymsg");if(msg)msg.textContent=`Paid: ${money(paid)} • Due: ${money(Math.max(0,total-credit))} • Expected paid: ${money(Math.max(0,total-credit))}`}
+function findCustomer(){let m=document.getElementById("bm").value.trim(),x=db.customers.find(c=>c.mobile===m);if(x)document.getElementById("bn").value=x.name}
+function saveBill(){if(!cart.length)return toast("Add at least one service");let mobile=document.getElementById("bm").value.trim(),name=document.getElementById("bn").value.trim()||"Walk-in",staff=document.getElementById("bs").value,subtotal=sum(cart,x=>x.price*x.qty),discount=Number(document.getElementById("bd").value||0),total=Math.max(0,subtotal-discount),credit=Math.min(Number(document.getElementById("bc").value||0),total),payments=["Cash","UPI","Card"].map(p=>({method:p,amount:Number(document.getElementById("pay_"+p).value||0)})).filter(x=>x.amount>0),paid=sum(payments,x=>x.amount);if(Math.abs(paid-(total-credit))>.01)return toast("Payment amounts do not match the payable amount");let invoice="NS-"+Date.now().toString().slice(-8);db.sales.push({invoice,date:today(),time:new Date().toLocaleTimeString(),customer:name,mobile,staff,items:cart.map(x=>({...x})),subtotal,discount,total,credit,payments});if(mobile){let cu=db.customers.find(x=>x.mobile===mobile);if(!cu){cu={name,mobile,visits:0,spending:0,history:[]};db.customers.push(cu)}cu.name=name;cu.visits++;cu.spending+=total;cu.lastVisit=today();cu.preferredStaff=staff;cu.history.push({date:today(),invoice,services:cart.map(x=>x.name),total})}save();let sale=db.sales.at(-1);cart=[];toast("Bill saved");printBill(sale)}
+function printBill(s){let w=window.open("","_blank","width=420,height=700");if(!w)return;w.document.write(`<html><head><title>${s.invoice}</title><style>body{font-family:Arial;padding:20px;max-width:360px;margin:auto}h2{text-align:center}.r{display:flex;justify-content:space-between;margin:7px 0}hr{border:0;border-top:1px solid #ddd}</style></head><body><h2>Nowmi Salon</h2><div style="text-align:center">Gnanavolipuram, Madurai<br>8300330863</div><hr><div class="r"><b>${s.invoice}</b><span>${s.date}</span></div><p>Customer: ${esc(s.customer)}<br>Staff: ${esc(s.staff)}</p>${s.items.map(x=>`<div class="r"><span>${esc(x.name)} × ${x.qty}</span><span>${money(x.price*x.qty)}</span></div>`).join("")}<hr><div class="r">Subtotal <b>${money(s.subtotal)}</b></div><div class="
