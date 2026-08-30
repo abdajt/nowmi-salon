@@ -1,0 +1,510 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0ea5e9">
+<title>Nowmi Salon — Management</title>
+<style>
+:root{--primary:#0ea5e9;--primary2:#2563eb;--bg:#f5f7fb;--card:#fff;--text:#172033;--muted:#667085;--border:#e5e7eb;--danger:#dc2626;--success:#16a34a}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial;background:var(--bg);color:var(--text)}
+button,input,select{font:inherit}button{cursor:pointer;border:0}.app{display:flex;min-height:100vh}.sidebar{width:240px;background:#fff;border-right:1px solid var(--border);padding:18px;position:fixed;inset:0 auto 0 0;z-index:10}.brand{font-weight:800;font-size:20px;padding:8px 6px 20px}.brand small{display:block;color:var(--muted);font-size:11px;font-weight:500;margin-top:3px}.nav button{display:block;width:100%;text-align:left;padding:11px 12px;margin:4px 0;border-radius:10px;background:transparent;color:#344054}.nav button.active,.nav button:hover{background:#e0f2fe;color:#0369a1}.main{margin-left:240px;width:calc(100% - 240px)}.top{height:64px;background:#fff;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 24px;position:sticky;top:0;z-index:5}.content{padding:24px;max-width:1400px;margin:auto}.grid{display:grid;gap:16px}.g4{grid-template-columns:repeat(4,1fr)}.g5{grid-template-columns:repeat(5,1fr)}.g3{grid-template-columns:repeat(3,1fr)}.g2{grid-template-columns:repeat(2,1fr)}.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;box-shadow:0 1px 2px #00000008}.metric{font-size:28px;font-weight:800;margin-top:6px}.label{font-size:13px;color:var(--muted)}h1{font-size:26px;margin:0 0 18px}h2{font-size:18px;margin:0 0 14px}.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.between{justify-content:space-between}.btn{padding:10px 14px;border-radius:9px;background:#eef2f6;color:#344054}.btn.primary{background:var(--primary2);color:#fff}.btn.success{background:var(--success);color:#fff}.btn.danger{background:var(--danger);color:#fff}.input,.select{width:100%;padding:10px 11px;border:1px solid #d0d5dd;border-radius:9px;background:#fff}.field{margin-bottom:12px}.field label{display:block;font-size:13px;color:#475467;margin-bottom:6px}.tablewrap{overflow:auto}.table{width:100%;border-collapse:collapse}.table th,.table td{padding:10px 8px;border-bottom:1px solid var(--border);text-align:left;white-space:nowrap;font-size:13px}.table th{color:#667085;font-weight:600}.pill{padding:4px 8px;border-radius:999px;font-size:12px;background:#e0f2fe;color:#0369a1}.hidden{display:none!important}.bill-layout{display:grid;grid-template-columns:1.4fr .8fr;gap:16px}.service-list{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.service-btn{padding:12px;text-align:left;border:1px solid var(--border);background:#fff;border-radius:10px}.service-btn:hover{border-color:var(--primary);background:#f0f9ff}.service-btn b{display:block}.service-btn span{font-size:12px;color:var(--muted)}.cart-row{display:grid;grid-template-columns:1fr 75px 85px 28px;gap:7px;align-items:center;margin-bottom:8px}.total{font-size:22px;font-weight:800}.login{min-height:100vh;display:grid;place-items:center;background:linear-gradient(135deg,#e0f2fe,#eff6ff)}.login-card{width:min(420px,92vw);background:#fff;padding:28px;border-radius:18px;border:1px solid var(--border);box-shadow:0 12px 40px #0001}.logo-placeholder{width:64px;height:64px;border-radius:16px;background:#e0f2fe;display:grid;place-items:center;font-weight:900;color:#0369a1;margin-bottom:16px}.toast{position:fixed;right:20px;bottom:20px;background:#172033;color:#fff;padding:12px 16px;border-radius:10px;z-index:99}.muted{color:var(--muted)}.danger-text{color:var(--danger)}.success-text{color:var(--success)}@media(max-width:1000px){.g4,.g5{grid-template-columns:repeat(2,1fr)}.bill-layout{grid-template-columns:1fr}.service-list{grid-template-columns:repeat(2,1fr)}}@media(max-width:700px){.sidebar{width:72px;padding:12px 8px}.brand{font-size:0;text-align:center}.brand:before{content:"N";font-size:22px}.brand small,.brand img,.nav span{display:none}.nav button{text-align:center;font-size:0}.nav button:before{font-size:19px}.nav button[data-page="dashboard"]:before{content:"🏠"}.nav button[data-page="billing"]:before{content:"🧾"}.nav button[data-page="sales"]:before{content:"💰"}.nav button[data-page="customers"]:before{content:"👤"}.nav button[data-page="appointments"]:before{content:"📅"}.nav button[data-page="services"]:before{content:"💇"}.nav button[data-page="staff"]:before{content:"👥"}.nav button[data-page="expenses"]:before{content:"💸"}.nav button[data-page="reports"]:before{content:"📊"}.nav button[data-page="settings"]:before{content:"⚙️"}.main{margin-left:72px;width:calc(100% - 72px)}.content{padding:14px}.g4,.g3,.g2,.g5{grid-template-columns:1fr}.top{padding:0 14px}.service-list{grid-template-columns:1fr}.cart-row{grid-template-columns:1fr 65px 75px 25px}h1{font-size:22px}}
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<!-- Firebase compat SDK (no bundler/build step required) -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+<script>
+/* =========================================================
+   FIREBASE SETUP — paste your project's config here.
+   Get this from: Firebase Console → Project settings → General
+   → "Your apps" → Web app → SDK setup and configuration.
+   ========================================================= */
+const firebaseConfig = {
+  apiKey: "AIzaSyDqhy0eek24l6NhTSDcAFE4porx4NfxPRI",
+  authDomain: "nowmi-salon.firebaseapp.com",
+  projectId: "nowmi-salon",
+  storageBucket: "nowmi-salon.firebasestorage.app",
+  messagingSenderId: "644268415618",
+  appId: "1:644268415618:web:e51861b9c7f0245d6e329b"
+};
+firebase.initializeApp(firebaseConfig);
+const fsdb = firebase.firestore();
+// Cache data locally so the app still works offline / on flaky connections.
+fsdb.enablePersistence({synchronizeTabs:true}).catch(e=>console.warn("Offline persistence unavailable:",e.code));
+// Sales are stored as individual documents in their own collection (not inside the
+// single "main" doc) because a Firestore document has a 1MB size limit — a salon
+// accumulates thousands of sales over time and would eventually blow past that.
+const cloudDoc = fsdb.collection("nowmi_salon").doc("main");
+const salesCol = fsdb.collection("nowmi_salon_sales");
+</script>
+
+<script>
+const DEFAULT_SERVICES=[
+["Haircut",120,30],["Shaving",60,15],["Trimming",70,15],["Haircut + Shave",180,45],["Haircut + Trimming",190,45],["Hair Wash",50,15],
+["Combo 1 — Hair cut / Shave / Oil massage",299,60],["Combo 2 — Hair cut / Shave / Detan",299,60],["Combo 3 — Hair cut / Shave / Hairdye",349,75],
+["Combo 4 — Hair cut / Shave / L'Oreal premium hair colour",599,90],["Combo 5 — Hair cut / Shave / Detan / Oil massage",499,90],["Combo 6 — Hair cut / Shave / clean up",499,75],
+["Combo 7 — Hair cut / Shave / Loreal Premium Hair spa",599,90],["Combo 8 — Hair cut / Shave / Fruit Facial",549,90],
+["Combo 9 — Hair cut / Shave / Detan/Loreal Premium Hair Colour",799,105],["Combo 10 — Hair cut / Shave /Gold Facial",899,105],["Zero Haircut",150,30]
+];
+const DEFAULT_STAFF=[["Salman","Stylist",20000,10],["Karthik","Stylist",20000,10],["Gaurav","Stylist",20000,10]];
+let SERVICES=[], STAFF=[], EXPENSE_CATS=[];
+const EXPENSES=["Rent","Salary","Electricity","Water","Internet","Product purchase","Maintenance","Cleaning","Marketing","Equipment","Tea and snacks","Delivery boy","Other"];
+const KEY="nowmi_salon_v1";
+const initial={sales:[],expenses:[],customers:[],appointments:[],users:[
+ {u:"admin",p:"dec26@2024",role:"Admin"}]};
+let db=initial, session=null, page="dashboard", cart=[], editingInvoice=null, editingExpenseId=null;
+
+// Firestore does NOT support arrays-of-arrays (e.g. [["Haircut",120,30]]).
+// Internally the app keeps services/staff as arrays-of-arrays for convenience,
+// so we convert to arrays-of-objects only when writing to Firestore, and convert
+// back to arrays-of-arrays after reading. Auto-detected so it works either way.
+function servicesToDocs(arr){return (arr||[]).map(x=>Array.isArray(x)?{name:x[0],price:x[1],duration:x[2]}:x)}
+function servicesFromDocs(arr){return (arr||[]).map(x=>Array.isArray(x)?x:[x.name,x.price,x.duration])}
+function staffToDocs(arr){return (arr||[]).map(x=>Array.isArray(x)?{name:x[0],role:x[1],salary:x[2],commissionPct:x[3]}:x)}
+function staffFromDocs(arr){return (arr||[]).map(x=>Array.isArray(x)?x:[x.name,x.role,x.salary,x.commissionPct])}
+
+function applyDefaults(){
+  if(db.services && db.services.length && !Array.isArray(db.services[0])) db.services=servicesFromDocs(db.services);
+  if(db.staff && db.staff.length && !Array.isArray(db.staff[0])) db.staff=staffFromDocs(db.staff);
+  if(!db.services) db.services=DEFAULT_SERVICES;
+  if(!db.staff) db.staff=DEFAULT_STAFF;
+  if(!db.users) db.users=initial.users;
+  if(!db.sales) db.sales=[];
+  if(!db.expenses) db.expenses=[];
+  if(!db.customers) db.customers=[];
+  if(!db.appointments) db.appointments=[];
+  if(!db.expenseCategories) db.expenseCategories=EXPENSES.slice();
+  db.expenses.forEach(e=>{ if(!e.id) e.id="e_"+Date.now().toString(36)+Math.random().toString(36).slice(2,8); });
+  SERVICES=db.services; STAFF=db.staff; EXPENSE_CATS=db.expenseCategories;
+}
+
+function showConnecting(msg){document.getElementById("root").innerHTML=`<div class="login"><div class="login-card" style="text-align:center"><h1>Nowmi Salon</h1><p class="muted">${esc(msg)}</p></div></div>`}
+
+// Save = write local cache immediately (fast, works offline) + push to the cloud so other devices see it.
+// "sales" is deliberately excluded from the main doc — each sale is its own document (see syncSale/removeSaleDoc).
+function mainPayload(){
+  const {sales, ...rest}=db;
+  return {...rest, services:servicesToDocs(db.services), staff:staffToDocs(db.staff)};
+}
+function save(){
+  localStorage.setItem(KEY,JSON.stringify(db));
+  try{
+    cloudDoc.set(mainPayload()).catch(err=>{console.error("Cloud sync failed:",err);toast("⚠ Cloud sync failed — saved locally only")});
+  }catch(err){
+    // Firestore validates data (e.g. rejects nested arrays) synchronously, before returning
+    // a promise, so this catch handles that case as well as any other setup error.
+    console.error("Cloud sync failed:",err);
+    toast("⚠ Cloud sync failed — saved locally only");
+  }
+}
+// Create/update one sale as its own cloud document.
+function syncSale(sale){
+  try{
+    salesCol.doc(String(sale.invoice)).set(sale).catch(err=>{console.error("Sale sync failed:",err);toast("⚠ Cloud sync failed for this bill — saved locally only")});
+  }catch(err){
+    console.error("Sale sync failed:",err);
+    toast("⚠ Cloud sync failed for this bill — saved locally only");
+  }
+}
+function removeSaleDoc(invoice){
+  salesCol.doc(String(invoice)).delete().catch(err=>console.error("Failed to delete cloud sale:",err));
+}
+
+// Real-time listener: when data changes from ANY device, pull it in and re-render.
+// hasPendingWrites=true means this snapshot is our own optimistic local write echoing back — ignore it to avoid render loops.
+// Loading and live-syncing every historical sale on every app open is what was causing huge
+// Firestore read counts (thousands of docs, read twice — once via get(), once via onSnapshot).
+// Instead: only the last RECENT_DAYS are kept live-synced. Anything older is fetched on-demand,
+// only when a date outside that window is actually selected (Sales/Reports/Dashboard date pickers).
+const RECENT_DAYS=31;
+function recentCutoff(){let d=new Date();d.setDate(d.getDate()-RECENT_DAYS);return d.toISOString().slice(0,10)}
+let windowSales=[]; // live-synced recent sales
+const extraSalesMap=new Map(); // on-demand loaded older sales, kept for this session only
+function rebuildDbSales(){db.sales=Array.from(extraSalesMap.values()).concat(windowSales)}
+// Keep the recent-window / on-demand caches consistent with any local edit, so a later
+// rebuildDbSales() (triggered by the live listener or a date load) doesn't silently undo it.
+function localUpsertSale(sale){
+  if(sale.date>=recentCutoff()){
+    const idx=windowSales.findIndex(s=>s.invoice===sale.invoice);
+    if(idx>=0) windowSales[idx]=sale; else windowSales.push(sale);
+  } else {
+    extraSalesMap.set(sale.invoice, sale);
+  }
+  rebuildDbSales();
+}
+function localRemoveSale(invoice){
+  windowSales=windowSales.filter(s=>s.invoice!==invoice);
+  extraSalesMap.delete(invoice);
+  rebuildDbSales();
+}
+function localUpsertSalesBulk(salesArr){
+  const cutoff=recentCutoff();
+  salesArr.forEach(s=>{
+    if(s.date>=cutoff){
+      const idx=windowSales.findIndex(w=>w.invoice===s.invoice);
+      if(idx>=0) windowSales[idx]=s; else windowSales.push(s);
+    } else {
+      extraSalesMap.set(s.invoice, s);
+    }
+  });
+  rebuildDbSales();
+}
+// Fetches sales for one specific date if it's outside the live window and not already loaded this session.
+// Cheap and bounded — reads only that day's records, not the whole history.
+async function ensureDateLoaded(date){
+  if(!date || date>=recentCutoff()) return; // already covered by the live window
+  if(Array.from(extraSalesMap.values()).some(s=>s.date===date)) return; // already fetched this session
+  try{
+    const snap=await salesCol.where("date","==",date).get();
+    snap.docs.forEach(d=>extraSalesMap.set(d.id,d.data()));
+    rebuildDbSales();
+  }catch(err){console.error("Failed to load sales for",date,err)}
+}
+// One-time, explicit full-history load — only ever triggered by a deliberate user action
+// (e.g. "Load full sales history" / exporting everything), since it reads every sale document.
+let fullHistoryLoaded=false;
+async function ensureFullHistoryLoaded(){
+  if(fullHistoryLoaded) return;
+  const snap=await salesCol.get();
+  snap.docs.forEach(d=>extraSalesMap.set(d.id,d.data()));
+  fullHistoryLoaded=true;
+  rebuildDbSales();
+}
+// Loads a date range that may dip below the live window (used by the dashboard's custom range).
+async function ensureRangeLoaded(from,to){
+  if(!from||!to||fullHistoryLoaded) return;
+  const cutoff=recentCutoff();
+  if(from>=cutoff) return; // fully covered by the live window already
+  const queryTo=to<cutoff?to:cutoff;
+  try{
+    const snap=await salesCol.where("date",">=",from).where("date","<=",queryTo).get();
+    snap.docs.forEach(d=>extraSalesMap.set(d.id,d.data()));
+    rebuildDbSales();
+  }catch(err){console.error("Failed to load sales range",err)}
+}
+
+function listenForRemoteChanges(){
+  cloudDoc.onSnapshot(snap=>{
+    if(snap.metadata.hasPendingWrites) return;
+    if(!snap.exists) return;
+    const incoming=snap.data();
+    db={...db, ...incoming, sales:db.sales}; // keep sales as-is; it's managed by the sales-window listener below
+    applyDefaults();
+    localStorage.setItem(KEY,JSON.stringify(db));
+    if(session){ toast("🔄 Synced from another device"); render(); }
+  }, err=>console.error("Sync listener error:",err));
+
+  // Only listens to the recent window, not the entire collection — this is the main fix for read costs.
+  salesCol.where("date",">=",recentCutoff()).onSnapshot(snap=>{
+    let changed=false;
+    const map=new Map(windowSales.map(s=>[s.invoice,s]));
+    snap.docChanges().forEach(change=>{
+      if(change.doc.metadata.hasPendingWrites) return; // our own optimistic write echoing back
+      changed=true;
+      if(change.type==="removed") map.delete(change.doc.id);
+      else map.set(change.doc.id, change.doc.data());
+    });
+    if(changed){
+      windowSales=Array.from(map.values());
+      rebuildDbSales();
+      localStorage.setItem(KEY,JSON.stringify(db));
+      if(session){ render(); }
+    }
+  }, err=>console.error("Sales sync listener error:",err));
+}
+
+function startApp(){
+  showConnecting("Connecting to cloud sync…");
+  cloudDoc.get().then(snap=>{
+    if(snap.exists){
+      db=snap.data();
+    } else {
+      db=JSON.parse(JSON.stringify(initial));
+    }
+    db.sales=[]; // populated by the recent-window listener right after this
+    applyDefaults();
+    if(!snap.exists) cloudDoc.set(mainPayload());
+    listenForRemoteChanges();
+    resumeSessionOrLogin();
+  }).catch(err=>{
+    console.error("Initial cloud load failed:",err);
+    db=JSON.parse(localStorage.getItem(KEY)||"null")||JSON.parse(JSON.stringify(initial));
+    applyDefaults();
+    resumeSessionOrLogin();
+    toast("⚠ Offline — using local data. Check your Firebase config / connection.");
+  });
+}
+// Stay logged in across refreshes/reopens: restore the saved session if the user still exists.
+const SESSION_KEY="nowmi_salon_session";
+function resumeSessionOrLogin(){
+  const savedUser=localStorage.getItem(SESSION_KEY);
+  if(savedUser){
+    const u=db.users.find(x=>x.u===savedUser);
+    if(u){ session=u; render(); return; }
+    localStorage.removeItem(SESSION_KEY);
+  }
+  login();
+}
+function money(n){return "₹"+Number(n||0).toLocaleString("en-IN",{maximumFractionDigits:2})}
+function esc(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]))}
+function today(){return new Date().toISOString().slice(0,10)}
+function sum(a,f){return a.reduce((x,y)=>x+(f?f(y):y),0)}
+function toast(t){let e=document.createElement("div");e.className="toast";e.textContent=t;document.body.appendChild(e);setTimeout(()=>e.remove(),2200)}
+function login(){document.getElementById("root").innerHTML=`<div class="login"><div class="login-card"><img src="nowmi-logo.jpg" alt="Nowmi Salon logo" style="width:100%;max-height:180px;object-fit:contain;border-radius:12px;margin-bottom:16px"><h1>Nowmi Salon</h1><p class="muted">Arapalayam • Management System</p><div class="field"><label>Username</label><input id="lu" class="input" value=""></div><div class="field"><label>Password</label><input id="lp" type="password" class="input"></div><button class="btn primary" style="width:100%" onclick="doLogin()">Sign in</button><p class="muted" style="font-size:12px;margin-top:16px"></p></div></div>`}
+function doLogin(){let u=document.getElementById("lu").value,p=document.getElementById("lp").value;session=db.users.find(x=>x.u===u&&x.p===p);if(!session)return toast("Invalid username or password");localStorage.setItem(SESSION_KEY,session.u);render()}
+function render(){document.getElementById("root").innerHTML=`<div class="app"><aside class="sidebar"><div class="brand"><img src="nowmi-logo.jpg" alt="Nowmi Salon" style="width:100%;max-height:54px;object-fit:contain;background:#111;border-radius:8px;margin-bottom:7px"><small>Arapalayam</small></div><nav class="nav">${[
+["dashboard","Dashboard"],["billing","New Bill"],["sales","Sales"],["customers","Customers"],["appointments","Appointments"],["services","Services"],["staff","Staff"],["expenses","Expenses"],["reports","Reports"],["settings","Settings"]].map(x=>`<button data-page="${x[0]}" class="${page===x[0]?"active":""}" onclick="go('${x[0]}')"><span>${x[1]}</span></button>`).join("")}</nav></aside><main class="main"><header class="top"><b>${page==="billing"?"New Bill":page[0].toUpperCase()+page.slice(1)}</b><div class="row"><span class="pill">${esc(session.role)}</span><button class="btn" onclick="logout()">Logout</button></div></header><section class="content" id="content"></section></main></div>`;view()}
+function go(p){page=p;render()} function logout(){session=null;cart=[];editingInvoice=null;editingExpenseId=null;localStorage.removeItem(SESSION_KEY);login()}
+function view(){let c=document.getElementById("content");({dashboard:dashboard,billing:billing,sales:sales,customers:customers,appointments:appointments,services:services,staff:staff,expenses:expenses,reports:reports,settings:settings}[page])(c)}
+let dashFrom=null, dashTo=null;
+async function setDashRange(){dashFrom=document.getElementById("dashfrom").value||today();dashTo=document.getElementById("dashto").value||today();await ensureRangeLoaded(dashFrom,dashTo);render()}
+function dashboard(c){let rf=dashFrom||today(), rt=dashTo||today(), rs=db.sales.filter(x=>x.date>=rf&&x.date<=rt), re=db.expenses.filter(x=>x.date>=rf&&x.date<=rt), m=today().slice(0,7), ms=db.sales.filter(x=>x.date.startsWith(m)), me=db.expenses.filter(x=>x.date.startsWith(m));
+const single=rf===rt, label=single?(rf===today()?"Today's":rf+" —"):`${rf} to ${rt} —`;
+c.innerHTML=`<h1>Good day 👋</h1><div class="card"><h2>Date range</h2><div class="grid g2"><div class="field"><label>From</label><input id="dashfrom" class="input" type="date" value="${rf}" onchange="setDashRange()"></div><div class="field"><label>To</label><input id="dashto" class="input" type="date" value="${rt}" onchange="setDashRange()"></div></div></div><div style="height:12px"></div><div class="grid g5">
+<div class="card"><div class="label">${label} sales</div><div class="metric">${money(sum(rs,x=>x.total))}</div><div class="muted">${rs.length} bills</div></div>
+<div class="card"><div class="label">Expenses</div><div class="metric">${money(sum(re,x=>x.amount))}</div></div>
+<div class="card"><div class="label">Net</div><div class="metric">${money(sum(rs,x=>x.total)-sum(re,x=>x.amount))}</div></div>
+<div class="card"><div class="label">Customers</div><div class="metric">${new Set(rs.map(x=>x.mobile).filter(Boolean)).size}</div></div>
+<div class="card"><div class="label">Tips</div><div class="metric">${money(sum(rs,x=>x.tip||0))}</div></div></div>
+<div style="height:16px"></div><div class="grid g3"><div class="card"><h2>This month (${m})</h2><p>Sales <b>${money(sum(ms,x=>x.total))}</b></p><p>Expenses <b>${money(sum(me,x=>x.amount))}</b></p><p>Net <b>${money(sum(ms,x=>x.total)-sum(me,x=>x.amount))}</b></p></div><div class="card"><h2>Payment breakdown</h2>${["Cash","UPI","Card","Credit"].map(p=>`<p class="row between"><span>${p}</span><b>${money(sum(rs,x=>(x.payments||[]).filter(q=>q.method===p).reduce((a,q)=>a+Number(q.amount),0)))}</b></p>`).join("")}</div><div class="card"><h2>Tips by staff</h2>${STAFF.map(x=>[x[0],sum(rs.filter(q=>q.staff===x[0]),q=>q.tip||0)]).sort((a,b)=>b[1]-a[1]).map(([name,tip])=>`<p class="row between"><span>${esc(name)}</span><b>${money(tip)}</b></p>`).join("")||"<p class='muted'>No staff set up yet.</p>"}</div></div>
+<div style="height:16px"></div><div class="card"><div class="row between"><h2>Recent bills</h2><button class="btn primary" onclick="go('billing')">Create bill</button></div><div class="tablewrap"><table class="table"><thead><tr><th>Invoice</th><th>Date</th><th>Customer</th><th>Staff</th><th>Total</th></tr></thead><tbody>${db.sales.slice(-8).reverse().map(x=>`<tr><td>${esc(x.invoice)}</td><td>${x.date}</td><td>${esc(x.customer||"Walk-in")}</td><td>${esc(x.staff)}</td><td>${money(x.total)}</td></tr>`).join("")||"<tr><td colspan=5>No sales yet</td></tr>"}</tbody></table></div></div>`}
+function billing(c){const editing=!!editingInvoice;c.innerHTML=`${editing?`<div class="card" style="background:#fff7ed;border-color:#fdba74;margin-bottom:16px"><div class="row between"><span>✏️ Editing bill <b>${esc(editingInvoice)}</b></span><button class="btn" onclick="cancelEditSale()">Cancel edit</button></div></div>`:""}<h1>${editing?"Edit Bill":"Create Bill"}</h1><div class="bill-layout"><div class="card"><div class="grid g2"><div class="field"><label>Customer mobile</label><input id="bm" class="input" placeholder="10-digit mobile" oninput="findCustomer()"></div><div class="field"><label>Customer name</label><input id="bn" class="input" placeholder="Walk-in customer"></div></div><div class="field"><label>Staff *</label><select id="bs" class="select"><option value="">Select staff</option>${STAFF.map(x=>`<option>${x[0]}</option>`).join("")}</select></div><h2>Services</h2><div class="service-list">${SERVICES.map((x,i)=>`<button class="service-btn" onclick="addService(${i})"><b>${esc(x[0])}</b><span>${money(x[1])} • ${x[2]} min</span></button>`).join("")}</div></div>
+<div class="card"><h2>Bill summary</h2><div id="cart"></div><div class="grid g2"><div class="field"><label>Discount ₹</label><input id="bd" class="input" type="number" min="0" value="0" oninput="refreshCart()"></div><div class="field"><label>Credit / unpaid ₹</label><input id="bc" class="input" type="number" min="0" value="0" oninput="refreshCart()"></div></div><div class="field"><label>Tips ₹ (for staff)</label><input id="btip" class="input" type="number" min="0" value="0"></div><div id="paybox"></div><hr><div class="row between"><span>Total</span><span id="btotal" class="total">₹0</span></div><button class="btn success" style="width:100%;margin-top:14px" onclick="saveBill()">${editing?"Update Bill":"Save Bill"}</button><button class="btn" style="width:100%;margin-top:8px" onclick="cart=[];refreshCart()">Clear</button></div></div>`;refreshCart();if(editing)prefillEditSale()}
+function prefillEditSale(){const s=db.sales.find(x=>x.invoice===editingInvoice);if(!s)return;document.getElementById("bm").value=s.mobile||"";document.getElementById("bn").value=s.customer||"";document.getElementById("bs").value=s.staff||"";document.getElementById("bd").value=s.discount||0;document.getElementById("bc").value=s.credit||0;document.getElementById("btip").value=s.tip||0;refreshCart();(s.payments||[]).forEach(p=>{const el=document.getElementById("pay_"+p.method);if(el)el.value=p.amount});balancePay()}
+function cancelEditSale(){editingInvoice=null;cart=[];go("sales")}
+function addService(i){let x=SERVICES[i], found=cart.find(a=>a.name===x[0]);found?found.qty++:cart.push({name:x[0],price:x[1],qty:1});refreshCart()}
+function refreshCart(){let e=document.getElementById("cart");if(!e)return;let subtotal=sum(cart,x=>x.price*x.qty),discount=Number(document.getElementById("bd")?.value||0),credit=Math.min(Number(document.getElementById("bc")?.value||0),Math.max(0,subtotal-discount)),total=Math.max(0,subtotal-discount);e.innerHTML=cart.map((x,i)=>`<div class="cart-row"><span>${esc(x.name)}</span><input class="input" type="number" min="1" value="${x.qty}" onchange="cart[${i}].qty=Math.max(1,+this.value);refreshCart()"><span>${money(x.price*x.qty)}</span><button class="btn" onclick="cart.splice(${i},1);refreshCart()">×</button></div>`).join("")||"<p class='muted'>Add services from the left.</p>";document.getElementById("btotal").textContent=money(total);let paid=Math.max(0,total-credit);document.getElementById("paybox").innerHTML=`<h2>Payment</h2><div class="grid g3">${["Cash","UPI","Card"].map(p=>`<div class="field"><label>${p} ₹</label><input id="pay_${p}" class="input pay" type="number" min="0" value="${p==="UPI"?paid:0}" oninput="balancePay()"></div>`).join("")}</div><div id="paymsg" class="muted">Paid: ${money(paid)} • Due: ${money(credit)}</div>`;balancePay()}
+function balancePay(){let total=Number((document.getElementById("btotal")?.textContent||"").replace(/[₹,]/g,""))||0, credit=Number(document.getElementById("bc")?.value||0), paid=["Cash","UPI","Card"].reduce((a,p)=>a+Number(document.getElementById("pay_"+p)?.value||0),0);let msg=document.getElementById("paymsg");if(msg)msg.textContent=`Paid: ${money(paid)} • Due: ${money(Math.max(0,total-credit))} • Expected paid: ${money(Math.max(0,total-credit))}`}
+function findCustomer(){let m=document.getElementById("bm").value.trim(),x=db.customers.find(c=>c.mobile===m);if(x)document.getElementById("bn").value=x.name}
+function saveBill(){if(!cart.length)return toast("Add at least one service");let mobile=document.getElementById("bm").value.trim(),name=document.getElementById("bn").value.trim()||"Walk-in",staff=document.getElementById("bs").value;if(!staff)return toast("Please select a staff member");let subtotal=sum(cart,x=>x.price*x.qty),discount=Number(document.getElementById("bd").value||0),total=Math.max(0,subtotal-discount),credit=Math.min(Number(document.getElementById("bc").value||0),total),tip=Number(document.getElementById("btip").value||0),payments=["Cash","UPI","Card"].map(p=>({method:p,amount:Number(document.getElementById("pay_"+p).value||0)})).filter(x=>x.amount>0),paid=sum(payments,x=>x.amount);if(Math.abs(paid-(total-credit))>.01)return toast("Payment amounts do not match the payable amount");
+  if(editingInvoice){
+    const idx=db.sales.findIndex(x=>x.invoice===editingInvoice);
+    if(idx<0){toast("Original bill not found");editingInvoice=null;return go("sales")}
+    const old=db.sales[idx];
+    if(old.mobile){let cu=db.customers.find(x=>x.mobile===old.mobile);if(cu){cu.spending=Math.max(0,cu.spending-old.total);cu.history=(cu.history||[]).filter(h=>h.invoice!==editingInvoice)}}
+    const updated={...old,customer:name,mobile,staff,items:cart.map(x=>({...x})),subtotal,discount,total,credit,tip,payments};
+    localUpsertSale(updated);
+    if(mobile){let cu=db.customers.find(x=>x.mobile===mobile);if(!cu){cu={name,mobile,visits:1,spending:0,history:[]};db.customers.push(cu)}cu.name=name;cu.spending+=total;cu.lastVisit=updated.date;cu.preferredStaff=staff;cu.history.push({date:updated.date,invoice:editingInvoice,services:cart.map(x=>x.name),total})}
+    save();syncSale(updated);cart=[];editingInvoice=null;toast("Bill updated");go("sales");return;
+  }
+  let invoice="NS-"+Date.now().toString().slice(-8);const newSale={invoice,date:today(),time:new Date().toLocaleTimeString(),customer:name,mobile,staff,items:cart.map(x=>({...x})),subtotal,discount,total,credit,tip,payments};localUpsertSale(newSale);if(mobile){let cu=db.customers.find(x=>x.mobile===mobile);if(!cu){cu={name,mobile,visits:0,spending:0,history:[]};db.customers.push(cu)}cu.name=name;cu.visits++;cu.spending+=total;cu.lastVisit=today();cu.preferredStaff=staff;cu.history.push({date:today(),invoice,services:cart.map(x=>x.name),total})}save();syncSale(newSale);cart=[];toast("Bill saved");billing(document.getElementById("content"))}
+function editSale(invoice){const s=db.sales.find(x=>x.invoice===invoice);if(!s)return toast("Bill not found");editingInvoice=invoice;cart=s.items.map(x=>({...x}));page="billing";render()}
+function deleteSale(invoice){const idx=db.sales.findIndex(x=>x.invoice===invoice);if(idx<0)return;if(!confirm("Delete this bill permanently? This cannot be undone."))return;const s=db.sales[idx];if(s.mobile){let cu=db.customers.find(x=>x.mobile===s.mobile);if(cu){cu.visits=Math.max(0,cu.visits-1);cu.spending=Math.max(0,cu.spending-s.total);cu.history=(cu.history||[]).filter(h=>h.invoice!==invoice);cu.lastVisit=cu.history.length?cu.history[cu.history.length-1].date:cu.lastVisit}}localRemoveSale(invoice);save();removeSaleDoc(invoice);toast("Bill deleted");sales(document.getElementById("content"))}
+function printBill(s){let w=window.open("","_blank","width=420,height=700");if(!w)return;w.document.write(`<html><head><title>${s.invoice}</title><style>body{font-family:Arial;padding:20px;max-width:360px;margin:auto}h2{text-align:center}.r{display:flex;justify-content:space-between;margin:7px 0}hr{border:0;border-top:1px solid #ddd}</style></head><body><h2>Nowmi Salon</h2><div style="text-align:center">Gnanavolipuram, Madurai<br>8300330863</div><hr><div class="r"><b>${s.invoice}</b><span>${s.date}</span></div><p>Customer: ${esc(s.customer)}<br>Staff: ${esc(s.staff)}</p>${s.items.map(x=>`<div class="r"><span>${esc(x.name)} × ${x.qty}</span><span>${money(x.price*x.qty)}</span></div>`).join("")}<hr><div class="r">Subtotal <b>${money(s.subtotal)}</b></div><div class="r">Discount <b>${money(s.discount)}</b></div>${s.tip?`<div class="r">Tip <b>${money(s.tip)}</b></div>`:""}<div class="r"><b>Total</b><b>${money(s.total)}</b></div><div class="r">Due <b>${money(s.credit)}</b></div><p style="text-align:center;margin-top:30px">Thank you for visiting Nowmi Salon!</p><script>window.print()<\/script></body></html>`);w.document.close()}
+function printSale(invoice){const s=db.sales.find(x=>x.invoice===invoice);if(!s)return toast("Bill not found");printBill(s)}
+function sales(c){let d=today();c.innerHTML=`<h1>Sales</h1><div class="card"><div class="row between"><span class="muted">Download the sales register in Excel format.</span><button class="btn success" onclick="exportSalesExcel()">⬇ Export Sales to Excel</button></div><div class="row"><div class="row"><input id="sf" class="input" style="max-width:260px" placeholder="Search invoice/customer/mobile" oninput="filterSales()"><input id="sd" class="input" style="max-width:170px" type="date" value="${d}" onchange="filterSales()"></div><p class="muted" style="margin:6px 0 0">Showing today by default. Pick a date to view another day. <a href="#" onclick="loadFullSalesHistory();return false">Search full sales history</a> if you need to find an older bill without knowing the date.</p><div class="tablewrap" style="margin-top:14px"><table class="table"><thead><tr><th>Invoice</th><th>Date</th><th>Customer</th><th>Staff</th><th>Payment</th><th>Total</th><th>Due</th><th>Actions</th></tr></thead><tbody id="salebody">${saleRows(db.sales.filter(x=>x.date===d).reverse())}</tbody></table></div></div>`}
+function saleRows(arr){return arr.map(x=>`<tr><td>${x.invoice}</td><td>${x.date}</td><td>${esc(x.customer)}<br><span class="muted">${esc(x.mobile)}</span></td><td>${esc(x.staff)}</td><td>${x.payments.map(p=>p.method+" "+money(p.amount)).join(", ")}</td><td>${money(x.total)}</td><td>${money(x.credit)}</td><td><button class="btn" onclick="printSale('${x.invoice}')">Print</button> <button class="btn" onclick="editSale('${x.invoice}')">Edit</button> <button class="btn danger" onclick="deleteSale('${x.invoice}')">Delete</button></td></tr>`).join("")||`<tr><td colspan="8">No sales found</td></tr>`}
+async function filterSales(){let q=document.getElementById("sf").value.toLowerCase(),d=document.getElementById("sd").value;if(d)await ensureDateLoaded(d);let a=db.sales.filter(x=>(!q||[x.invoice,x.customer,x.mobile,x.staff].join(" ").toLowerCase().includes(q))&&(!d||x.date===d));document.getElementById("salebody").innerHTML=saleRows(a)}
+async function loadFullSalesHistory(){if(!confirm("This loads your entire sales history (thousands of records) so you can search across all of it. It uses more Firebase reads than normal. Continue?"))return;toast("Loading full sales history…");await ensureFullHistoryLoaded();toast("Full history loaded");document.getElementById("sd").value="";filterSales()}
+function customers(c){c.innerHTML=`<h1>Customers</h1><div class="card"><div class="row"><input id="cq" class="input" style="max-width:300px" placeholder="Search name or mobile" oninput="filterCustomers()"><button class="btn primary" onclick="newCustomer()">Add customer</button></div><div class="tablewrap" style="margin-top:14px"><table class="table"><thead><tr><th>Name</th><th>Mobile</th><th>Visits</th><th>Total spending</th><th>Last visit</th><th>Preferred staff</th></tr></thead><tbody id="custbody">${customerRows(db.customers)}</tbody></table></div></div>`}
+function customerRows(a){return a.map(x=>`<tr><td>${esc(x.name)}</td><td>${esc(x.mobile)}</td><td>${x.visits}</td><td>${money(x.spending)}</td><td>${x.lastVisit||"-"}</td><td>${esc(x.preferredStaff||"-")}</td></tr>`).join("")||"<tr><td colspan=6>No customers yet</td></tr>"}
+function filterCustomers(){let q=document.getElementById("cq").value.toLowerCase();document.getElementById("custbody").innerHTML=customerRows(db.customers.filter(x=>(x.name+" "+x.mobile).toLowerCase().includes(q)))}
+function newCustomer(){let n=prompt("Customer name?");if(!n)return;let m=prompt("Mobile number?");if(!m)return;if(db.customers.some(x=>x.mobile===m))return toast("Customer already exists");db.customers.push({name:n,mobile:m,visits:0,spending:0,history:[]});save();customers(document.getElementById("content"))}
+function appointments(c){c.innerHTML=`<h1>Appointments</h1><div class="grid g2"><div class="card"><h2>New appointment</h2><div class="field"><label>Customer name</label><input id="an" class="input"></div><div class="field"><label>Mobile</label><input id="am" class="input"></div><div class="grid g2"><div class="field"><label>Date</label><input id="ad" class="input" type="date" value="${today()}"></div><div class="field"><label>Time</label><input id="at" class="input" type="time"></div></div><div class="field"><label>Service</label><select id="as" class="select">${SERVICES.map(x=>`<option>${esc(x[0])}</option>`).join("")}</select></div><div class="field"><label>Staff</label><select id="ast" class="select">${STAFF.map(x=>`<option>${x[0]}</option>`).join("")}</select></div><button class="btn primary" onclick="addAppt()">Save appointment</button></div><div class="card"><h2>Upcoming / recent</h2><div class="tablewrap"><table class="table"><thead><tr><th>Date</th><th>Time</th><th>Customer</th><th>Service</th><th>Staff</th></tr></thead><tbody>${db.appointments.slice().sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time)).map(x=>`<tr><td>${x.date}</td><td>${x.time}</td><td>${esc(x.name)}<br>${esc(x.mobile)}</td><td>${esc(x.service)}</td><td>${esc(x.staff)}</td></tr>`).join("")||"<tr><td colspan=5>No appointments</td></tr>"}</tbody></table></div></div></div>`}
+function addAppt(){let x={name:document.getElementById("an").value,mobile:document.getElementById("am").value,date:document.getElementById("ad").value,time:document.getElementById("at").value,service:document.getElementById("as").value,staff:document.getElementById("ast").value};if(!x.name||!x.mobile||!x.date||!x.time)return toast("Complete appointment details");db.appointments.push(x);save();toast("Appointment saved");appointments(document.getElementById("content"))}
+
+async function exportSalesExcel(){
+  if(!fullHistoryLoaded){
+    if(!confirm("Exporting the full sales register loads your entire sales history from the cloud (thousands of records) and uses more Firebase reads than normal. Continue?"))return;
+    toast("Loading full sales history for export…");
+    await ensureFullHistoryLoaded();
+  }
+  const headers=["Invoice","Date","Time","Customer","Mobile","Staff","Services","Subtotal","Discount","Total","Due","Cash","UPI","Card"];
+  const rows=db.sales.map(x=>[
+    x.invoice,x.date,x.time||"",x.customer||"Walk-in",x.mobile||"",x.staff||"",
+    (x.items||[]).map(i=>`${i.name} x${i.qty}`).join(" | "),x.subtotal||0,x.discount||0,x.total||0,x.credit||0,
+    (x.payments||[]).filter(p=>p.method==="Cash").reduce((a,p)=>a+Number(p.amount),0),
+    (x.payments||[]).filter(p=>p.method==="UPI").reduce((a,p)=>a+Number(p.amount),0),
+    (x.payments||[]).filter(p=>p.method==="Card").reduce((a,p)=>a+Number(p.amount),0)
+  ]);
+  const esc=s=>String(s??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+  const cell=v=>`<Cell><Data ss:Type="${typeof v==="number"?"Number":"String"}">${esc(v)}</Data></Cell>`;
+  const xml=`<?xml version="1.0"?><Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"><Worksheet ss:Name="Sales"><Table><Row>${headers.map(cell).join("")}</Row>${rows.map(r=>`<Row>${r.map(cell).join("")}</Row>`).join("")}</Table></Worksheet></Workbook>`;
+  const a=document.createElement("a"); a.href=URL.createObjectURL(new Blob([xml],{type:"application/vnd.ms-excel"}));
+  a.download=`Nowmi_Salon_Sales_${today()}.xls`; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+  toast("Sales report exported to Excel");
+}
+function addServiceAdmin(){
+  const name=prompt("Service name:"); if(!name)return;
+  const price=Number(prompt("Price (₹):","0")), dur=Number(prompt("Duration in minutes:","30"));
+  if(!Number.isFinite(price)||price<0||!Number.isFinite(dur)||dur<=0)return toast("Invalid price or duration");
+  if(SERVICES.some(x=>x[0].toLowerCase()===name.toLowerCase()))return toast("Service already exists");
+  SERVICES.push([name,price,dur]); db.services=SERVICES; save(); toast("Service added"); services(document.getElementById("content"));
+}
+function editService(i){
+  const x=SERVICES[i], name=prompt("Service name:",x[0]); if(!name)return;
+  const price=Number(prompt("Price (₹):",x[1])), dur=Number(prompt("Duration in minutes:",x[2]));
+  if(!Number.isFinite(price)||price<0||!Number.isFinite(dur)||dur<=0)return toast("Invalid price or duration");
+  SERVICES[i]=[name,price,dur]; db.services=SERVICES; save(); toast("Service updated"); services(document.getElementById("content"));
+}
+function deleteService(i){
+  if(!confirm("Delete this service from future billing? Existing bills remain unchanged."))return;
+  SERVICES.splice(i,1); db.services=SERVICES; save(); toast("Service removed"); services(document.getElementById("content"));
+}
+function addStaffAdmin(){
+  const name=prompt("Stylist name:"); if(!name)return;
+  const salary=Number(prompt("Monthly salary (₹):","20000"));
+  if(!Number.isFinite(salary)||salary<0)return toast("Invalid salary");
+  if(STAFF.some(x=>x[0].toLowerCase()===name.toLowerCase()))return toast("Stylist already exists");
+  STAFF.push([name,"Stylist",salary,10]); db.staff=STAFF; save(); toast("Stylist added"); staff(document.getElementById("content"));
+}
+function editStaff(i){
+  const x=STAFF[i], name=prompt("Stylist name:",x[0]); if(!name)return;
+  const salary=Number(prompt("Monthly salary (₹):",x[2]));
+  if(!Number.isFinite(salary)||salary<0)return toast("Invalid salary");
+  STAFF[i]=[name,"Stylist",salary,10]; db.staff=STAFF; save(); toast("Stylist updated"); staff(document.getElementById("content"));
+}
+function deleteStaff(i){
+  if(!confirm("Remove this stylist from future billing? Existing bills remain unchanged."))return;
+  STAFF.splice(i,1); db.staff=STAFF; save(); toast("Stylist removed"); staff(document.getElementById("content"));
+}
+
+function services(c){c.innerHTML=`<h1>Services</h1><div class="card"><div class="row between"><p class="muted">Add, edit or remove services. Changes appear immediately in billing.</p><button class="btn primary" onclick="addServiceAdmin()">+ Add Service</button></div><div class="tablewrap"><table class="table"><thead><tr><th>Service</th><th>Price</th><th>Duration</th><th>Actions</th></tr></thead><tbody>${SERVICES.map((x,i)=>`<tr><td>${esc(x[0])}</td><td>${money(x[1])}</td><td>${x[2]} min</td><td><button class="btn" onclick="editService(${i})">Edit</button> <button class="btn danger" onclick="deleteService(${i})">Delete</button></td></tr>`).join("")}</tbody></table></div></div>`}
+function staff(c){let salesBy=STAFF.map(s=>({name:s[0],total:sum(db.sales.filter(x=>x.staff===s[0]),x=>x.total)}));c.innerHTML=`<h1>Staff</h1><div class="card"><div class="row between"><p class="muted">Add new stylists or update existing stylist details.</p><button class="btn primary" onclick="addStaffAdmin()">+ Add Stylist</button></div><div class="tablewrap"><table class="table"><thead><tr><th>Name</th><th>Role</th><th>Salary</th><th>Commission rule</th><th>All-time sales</th><th>Actions</th></tr></thead><tbody>${STAFF.map((s,i)=>`<tr><td>${esc(s[0])}</td><td>${esc(s[1])}</td><td>${money(s[2])}</td><td>10% of full day after ₹3,000 Mon–Fri / ₹3,500 Sat–Sun</td><td>${money(salesBy[i].total)}</td><td><button class="btn" onclick="editStaff(${i})">Edit</button> <button class="btn danger" onclick="deleteStaff(${i})">Delete</button></td></tr>`).join("")}</tbody></table></div></div>`}
+function expenses(c){const editing=db.expenses.find(x=>x.id===editingExpenseId);const d=today();c.innerHTML=`<h1>Expenses</h1><div class="grid g2"><div class="card"><h2>${editing?"Edit expense":"Add expense"}</h2><div class="field"><label>Date</label><input id="ed" class="input" type="date" value="${editing?editing.date:today()}"></div><div class="field"><label>Category</label><select id="ec" class="select">${EXPENSE_CATS.map(x=>`<option ${editing&&editing.category===x?"selected":""}>${x}</option>`).join("")}</select></div><div class="field"><label>Amount</label><input id="ea" class="input" type="number" min="0" value="${editing?editing.amount:""}"></div><div class="field"><label>Payment method</label><select id="ep" class="select">${["Cash","UPI","Card","Bank transfer"].map(x=>`<option ${editing&&editing.payment===x?"selected":""}>${x}</option>`).join("")}</select></div><button class="btn primary" onclick="saveExpense()">${editing?"Update expense":"Save expense"}</button>${editing?` <button class="btn" onclick="cancelEditExpense()">Cancel</button>`:""}</div><div class="card"><div class="row between"><h2>Expense history</h2><input id="exd" class="input" style="max-width:170px" type="date" value="${d}" onchange="filterExpenses()"></div><p class="muted" style="margin:0 0 8px">Showing today by default. Pick a date to view another day, or clear it to see all expenses.</p><div class="tablewrap"><table class="table"><thead><tr><th>Date</th><th>Category</th><th>Amount</th><th>Payment</th><th>Actions</th></tr></thead><tbody id="expensebody">${expenseRows(db.expenses.filter(x=>x.date===d).slice().reverse())}</tbody></table></div></div></div>`}
+function expenseRows(arr){return arr.map(x=>`<tr><td>${x.date}</td><td>${esc(x.category)}</td><td>${money(x.amount)}</td><td>${x.payment}</td><td><button class="btn" onclick="editExpense('${x.id}')">Edit</button> <button class="btn danger" onclick="deleteExpense('${x.id}')">Delete</button></td></tr>`).join("")||"<tr><td colspan=5>No expenses found</td></tr>"}
+function filterExpenses(){let d=document.getElementById("exd").value;let arr=db.expenses.filter(x=>!d||x.date===d).slice().reverse();document.getElementById("expensebody").innerHTML=expenseRows(arr)}
+function saveExpense(){let x={date:document.getElementById("ed").value,category:document.getElementById("ec").value,amount:Number(document.getElementById("ea").value),payment:document.getElementById("ep").value};if(!x.amount)return toast("Enter an amount");if(editingExpenseId){const idx=db.expenses.findIndex(e=>e.id===editingExpenseId);if(idx>=0)db.expenses[idx]={...db.expenses[idx],...x};editingExpenseId=null;toast("Expense updated")}else{x.id="e_"+Date.now().toString(36)+Math.random().toString(36).slice(2,8);db.expenses.push(x);toast("Expense saved")}save();expenses(document.getElementById("content"))}
+function editExpense(id){editingExpenseId=id;expenses(document.getElementById("content"))}
+function cancelEditExpense(){editingExpenseId=null;expenses(document.getElementById("content"))}
+function deleteExpense(id){if(!confirm("Delete this expense?"))return;db.expenses=db.expenses.filter(x=>x.id!==id);if(editingExpenseId===id)editingExpenseId=null;save();toast("Expense deleted");expenses(document.getElementById("content"))}
+function commissionForSaleDay(staff,date){let day=new Date(date+"T00:00:00").getDay();let threshold=(day===0||day===6)?3500:3000;let sales=sum(db.sales.filter(x=>x.date===date&&x.staff===staff),x=>x.total);return {threshold,sales,commission:sales>threshold?sales*0.10:0,eligible:sales>threshold}}
+function commissionRows(d){let rows=[];STAFF.forEach(st=>{let q=commissionForSaleDay(st[0],d);if(q.sales)rows.push(`<tr><td>${d}</td><td>${st[0]}</td><td>${money(q.sales)}</td><td>${money(q.threshold)}</td><td>${q.eligible?money(q.commission):"—"}</td></tr>`)});return rows.join("")||`<tr><td colspan=5>No staff sales on ${d}</td></tr>`}
+async function filterCommission(){let d=document.getElementById("crd").value||today();await ensureDateLoaded(d);document.getElementById("commissionbody").innerHTML=commissionRows(d)}
+function reports(c){let m=new Date().toISOString().slice(0,7),s=db.sales.filter(x=>x.date.startsWith(m)),e=db.expenses.filter(x=>x.date.startsWith(m)),svc={};s.forEach(x=>x.items.forEach(i=>svc[i.name]=(svc[i.name]||0)+i.qty));let top=Object.entries(svc).sort((a,b)=>b[1]-a[1]).slice(0,8),d0=today();c.innerHTML=`<h1>Reports</h1><div class="grid g4"><div class="card"><div class="label">Monthly sales</div><div class="metric">${money(sum(s,x=>x.total))}</div></div><div class="card"><div class="label">Monthly expenses</div><div class="metric">${money(sum(e,x=>x.amount))}</div></div><div class="card"><div class="label">Net</div><div class="metric">${money(sum(s,x=>x.total)-sum(e,x=>x.amount))}</div></div><div class="card"><div class="label">Bills</div><div class="metric">${s.length}</div></div></div><div style="height:16px"></div><div class="grid g2"><div class="card"><h2>Top services this month</h2>${top.map(x=>`<p class="row between"><span>${esc(x[0])}</span><b>${x[1]} sold</b></p>`).join("")||"<p class='muted'>No sales yet.</p>"}</div><div class="card"><h2>Staff sales this month</h2>${STAFF.map(x=>`<p class="row between"><span>${x[0]}</span><b>${money(sum(s.filter(q=>q.staff===x[0]),q=>q.total))}</b></p>`).join("")}</div></div><div style="height:16px"></div><div class="card"><div class="row between"><h2>Daily staff commission</h2><input id="crd" class="input" style="max-width:170px" type="date" value="${d0}" onchange="filterCommission()"></div><p class="muted">10% of the entire day's individual sales when the stylist crosses ₹3,000 Monday–Friday or ₹3,500 Saturday–Sunday. Showing today by default — pick a date to view another day.</p><div class="tablewrap"><table class="table"><thead><tr><th>Date</th><th>Staff</th><th>Day sales</th><th>Threshold</th><th>Commission</th></tr></thead><tbody id="commissionbody">${commissionRows(d0)}</tbody></table></div></div>`}
+function settings(c){c.innerHTML=`<h1>Settings</h1><div class="grid g2"><div class="card"><h2>Salon profile</h2><p><b>Nowmi Salon Arapalayam</b></p><p>Gnanavolipuram, Madurai</p><p>Phone / WhatsApp: 8300330863</p><p>Email: nowmisalon.mdu@gmail.com</p><p>GST: Not registered</p><p class="muted">PIN: 625016</p></div><div class="card"><h2>Data tools</h2><p class="muted">Data syncs live to the cloud via Firebase — changes on one device appear on all others within seconds. A local copy is also cached on this device for offline use.</p><button class="btn" onclick="exportData()">Export backup JSON</button> <button class="btn" onclick="document.getElementById('imp').click()">Import backup</button><input id="imp" type="file" accept=".json" class="hidden" onchange="importData(this)"><hr><button class="btn danger" onclick="if(confirm('Delete all app data?')){localStorage.removeItem(KEY);location.reload()}">Reset all data</button></div>
+<div class="card"><h2>Import old sales (Excel)</h2><p class="muted">Upload an old "Bill Registry" Excel export (Google Forms style, with Service Name / Payment Method / Price / Service Provider columns) to add those historical sales into this app. This only adds records — it never removes or overwrites existing sales.</p><button class="btn" onclick="document.getElementById('impxl').click()">Choose Excel file…</button><input id="impxl" type="file" accept=".xlsx,.xls" class="hidden" onchange="importLegacyExcel(this)"><div id="impxlstatus" class="muted" style="margin-top:8px"></div></div>
+<div class="card"><h2>Import expense tracker (Excel)</h2><p class="muted">Upload a day-by-day expense tracker (categories as rows, one column per date) to add those expenses into this app. Only adds records — skips anything already imported before.</p><button class="btn" onclick="document.getElementById('impexp').click()">Choose Excel file…</button><input id="impexp" type="file" accept=".xlsx,.xls" class="hidden" onchange="importExpenseTracker(this)"><div id="impexpstatus" class="muted" style="margin-top:8px"></div></div></div>`}
+function exportData(){let a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify(db,null,2)],{type:"application/json"}));a.download="nowmi-salon-backup.json";a.click()}
+function importData(inp){let f=inp.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{db=JSON.parse(r.result);applyDefaults();save();toast("Backup imported");render()}catch(e){toast("Invalid backup file")}};r.readAsText(f)}
+
+// Import an old "Bill Registry" style Excel export (Google Forms bill log) and add its rows
+// as historical sales. Additive only — never touches existing sales.
+function excelDateToJS(v){
+  if(v instanceof Date) return v;
+  if(typeof v==="number") return new Date(Math.round((v-25569)*86400*1000));
+  const d=new Date(v);
+  return isNaN(d.getTime())?null:d;
+}
+async function importLegacyExcel(inp){
+  const file=inp.files[0]; if(!file) return;
+  const status=document.getElementById("impxlstatus");
+  if(status)status.textContent="Reading file…";
+  try{
+    const buf=await file.arrayBuffer();
+    const wb=XLSX.read(buf,{type:"array",cellDates:true});
+    const sheetName=wb.SheetNames.find(n=>/bill.?registry/i.test(n))||wb.SheetNames[0];
+    const rows=XLSX.utils.sheet_to_json(wb.Sheets[sheetName],{defval:null});
+    const get=(row,...keys)=>{for(const k of keys){for(const rk in row){if(rk.trim().toLowerCase()===k.toLowerCase())return row[rk]}}return null};
+    const existingInvoices=new Set(db.sales.map(s=>s.invoice));
+    const newSales=[]; const newStaffNames=new Set(); let skipped=0;
+    rows.forEach((row,i)=>{
+      const ts=get(row,"Timestamp"), svc1=get(row,"Service Name 1"), other=get(row,"Other"),
+        svc2=get(row,"Service Name 2"), otherSvc=get(row,"Other Service"),
+        payRaw=get(row,"Payment Method"), price=get(row,"Price"), provider=get(row,"Service Provider"), tip=get(row,"Tips");
+      if(!ts||price==null||!provider||!payRaw){skipped++;return}
+      const d=excelDateToJS(ts); if(!d){skipped++;return}
+      const date=d.toISOString().slice(0,10), time=d.toLocaleTimeString();
+      let name1=svc1==="Other"?(other||"Other service"):svc1;
+      let name2=svc2?(svc2==="Other"?(otherSvc||"Other"):svc2):null;
+      const itemName=[name1,name2].filter(Boolean).join(" + ")||"Service";
+      let staffName=String(provider).trim(); staffName=staffName.charAt(0).toUpperCase()+staffName.slice(1).toLowerCase();
+      const payMethod=String(payRaw).trim().toLowerCase()==="cash"?"Cash":"UPI";
+      const total=Number(price)||0;
+      const invoice="LEGACY-"+d.getTime()+"-"+i;
+      if(existingInvoices.has(invoice)){skipped++;return}
+      if(!STAFF.some(s=>s[0].toLowerCase()===staffName.toLowerCase())) newStaffNames.add(staffName);
+      newSales.push({invoice,date,time,customer:"Walk-in",mobile:"",staff:staffName,items:[{name:itemName,price:total,qty:1}],subtotal:total,discount:0,total,credit:0,payments:[{method:payMethod,amount:total}],tip:tip?Number(tip):0,legacy:true});
+    });
+    if(!newSales.length){toast("No valid rows found to import");if(status)status.textContent="No valid rows found.";return}
+    const staffNote=newStaffNames.size?` These staff names aren't in your current Staff list yet and will be added: ${Array.from(newStaffNames).join(", ")}.`:"";
+    if(!confirm(`Found ${newSales.length} sale record(s) to import (${skipped} row(s) skipped as incomplete/duplicate).${staffNote}\n\nThis will add them to Sales history and sync to the cloud. Continue?`)){if(status)status.textContent="Import cancelled.";return}
+    newStaffNames.forEach(n=>STAFF.push([n,"Stylist",0,0]));
+    localUpsertSalesBulk(newSales);
+    localStorage.setItem(KEY,JSON.stringify(db));
+    save();
+    if(status)status.textContent=`Uploading ${newSales.length} records to the cloud…`;
+    for(let i=0;i<newSales.length;i+=450){
+      const chunk=newSales.slice(i,i+450);
+      const batch=fsdb.batch();
+      chunk.forEach(s=>batch.set(salesCol.doc(String(s.invoice)),s));
+      await batch.commit();
+      if(status)status.textContent=`Uploaded ${Math.min(i+450,newSales.length)} of ${newSales.length}…`;
+    }
+    toast(`Imported ${newSales.length} sale(s) successfully`);
+    if(status)status.textContent=`Done — imported ${newSales.length} sale(s), skipped ${skipped}.`;
+    inp.value="";
+    sales(document.getElementById("content"));
+  }catch(err){
+    console.error("Excel import failed:",err);
+    toast("⚠ Import failed — see console for details");
+    if(status)status.textContent="Import failed — see browser console.";
+  }
+}
+
+// Import a "day-by-day" expense tracker: category names as rows, one column per date, values = amount spent.
+// Rows that aren't real expenses (walk-in counts, sales totals, running "Expense" total, header labels) are skipped.
+const EXPENSE_TRACKER_EXCLUDE=new Set(["description","walk in","walkin","footfall","sales","expense","total"]);
+const EXPENSE_TRACKER_CATEGORY_MAP={"eb bill":"Electricity","products":"Product purchase","tea":"Tea and snacks","incentive&ot":"Incentives and OT","food money":"Food money","others":"Other","ticket":"Other"};
+async function importExpenseTracker(inp){
+  const file=inp.files[0]; if(!file) return;
+  const status=document.getElementById("impexpstatus");
+  if(status)status.textContent="Reading file…";
+  try{
+    const buf=await file.arrayBuffer();
+    const wb=XLSX.read(buf,{type:"array",cellDates:true});
+    const sheet=wb.Sheets[wb.SheetNames[0]];
+    const aoa=XLSX.utils.sheet_to_json(sheet,{header:1,defval:null,raw:true});
+    if(!aoa.length){toast("Empty sheet");if(status)status.textContent="Empty sheet.";return}
+    const headerRow=aoa[0];
+    const dateCols=[];
+    for(let ci=1; ci<headerRow.length; ci++){
+      const d=excelDateToJS(headerRow[ci]);
+      if(d) dateCols.push({ci, date:d.toISOString().slice(0,10)});
+    }
+    if(!dateCols.length){toast("Couldn't find any date columns in the header row");if(status)status.textContent="No date columns found.";return}
+    const existingIds=new Set(db.expenses.map(x=>x.id));
+    const newEntries=[]; const newCats=new Set();
+    for(let ri=1; ri<aoa.length; ri++){
+      const row=aoa[ri]; const rawLabel=row[0];
+      if(rawLabel==null) continue;
+      const label=String(rawLabel).trim(); const key=label.toLowerCase();
+      if(!label || EXPENSE_TRACKER_EXCLUDE.has(key)) continue;
+      const category=EXPENSE_TRACKER_CATEGORY_MAP[key]||label;
+      if(!EXPENSE_CATS.some(c=>c.toLowerCase()===category.toLowerCase())) newCats.add(category);
+      dateCols.forEach(({ci,date})=>{
+        const val=row[ci]; if(val==null||val==="") return;
+        const amount=Number(val); if(!amount) return;
+        const id="trk_"+date+"_"+key.replace(/[^a-z0-9]+/g,"_");
+        if(existingIds.has(id)) return;
+        newEntries.push({id,date,category,amount,payment:""});
+      });
+    }
+    if(!newEntries.length){toast("No new expense rows found (may already be imported)");if(status)status.textContent="Nothing new to import.";return}
+    const total=newEntries.reduce((a,x)=>a+x.amount,0);
+    const dates=newEntries.map(x=>x.date).sort();
+    const catNote=newCats.size?` New categories will be added: ${Array.from(newCats).join(", ")}.`:"";
+    if(!confirm(`Found ${newEntries.length} expense entr${newEntries.length===1?"y":"ies"} totalling ${money(total)}, from ${dates[0]} to ${dates[dates.length-1]}.${catNote}\n\nAdd these to Expenses? This will sync to the cloud.`)){if(status)status.textContent="Import cancelled.";return}
+    newCats.forEach(c=>{ if(!EXPENSE_CATS.some(x=>x.toLowerCase()===c.toLowerCase())) EXPENSE_CATS.push(c) });
+    db.expenses=db.expenses.concat(newEntries);
+    save();
+    toast(`Imported ${newEntries.length} expense(s)`);
+    if(status)status.textContent=`Done — imported ${newEntries.length} expense(s) totalling ${money(total)}.`;
+    inp.value="";
+    if(page==="expenses") expenses(document.getElementById("content"));
+  }catch(err){
+    console.error("Expense tracker import failed:",err);
+    toast("⚠ Import failed — see console for details");
+    if(status)status.textContent="Import failed — see browser console.";
+  }
+}
+
+startApp();
+</script>
+</body></html>
