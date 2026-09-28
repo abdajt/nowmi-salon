@@ -25,12 +25,6 @@ button,input,select{font:inherit}button{cursor:pointer;border:0}.app{display:fle
    Get this from: Firebase Console → Project settings → General
    → "Your apps" → Web app → SDK setup and configuration.
    ========================================================= */
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyDqhy0eek24l6NhTSDcAFE4porx4NfxPRI",
   authDomain: "nowmi-salon.firebaseapp.com",
@@ -41,8 +35,6 @@ const firebaseConfig = {
   appId: "1:644268415618:web:e51861b9c7f0245d6e329b"
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
 const fsdb = firebase.firestore();
 // Cache data locally so the app still works offline / on flaky connections.
 fsdb.enablePersistence({synchronizeTabs:true}).catch(e=>console.warn("Offline persistence unavailable:",e.code));
